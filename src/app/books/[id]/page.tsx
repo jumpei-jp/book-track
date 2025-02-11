@@ -23,23 +23,39 @@ export default function BookDetailPage() {
   const [book, setBook] = useState<Book | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
 
+  // 🔹 本とメモのデータを取得する関数を定義
+  const fetchBookAndNotes = async () => {
+    if (!id) return;
+
+    // 📚 本のデータを取得
+    const { data: bookData, error: bookError } = await supabase
+      .from("books")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (bookError) {
+      console.error("本の取得エラー:", bookError);
+    } else {
+      setBook(bookData);
+    }
+
+    // 📝 メモのデータを取得
+    const { data: notesData, error: notesError } = await supabase
+      .from("notes")
+      .select("*")
+      .eq("book_id", id);
+
+    if (notesError) {
+      console.error("メモの取得エラー:", notesError);
+    } else {
+      setNotes(notesData);
+    }
+  };
+
+  // 🔹 初回レンダリング時にデータを取得
   useEffect(() => {
-    async function fetchBook() {
-      const { data, error } = await supabase.from("books").select("*").eq("id", id).single();
-      if (error) console.error("本の取得エラー:", error);
-      else setBook(data);
-    }
-
-    async function fetchNotes() {
-      const { data, error } = await supabase.from("notes").select("*").eq("book_id", id);
-      if (error) console.error("メモの取得エラー:", error);
-      else setNotes(data);
-    }
-
-    if (id) {
-      fetchBook();
-      fetchNotes();
-    }
+    fetchBookAndNotes();
   }, [id]);
 
   if (!book) return <div>📖 読み込み中...</div>;
@@ -61,7 +77,7 @@ export default function BookDetailPage() {
       </ul>
 
       <h2 className="text-xl font-bold mt-6">📝 新しいメモを追加</h2>
-      <AddNoteForm bookId={book.id} />
+      <AddNoteForm bookId={book.id} refreshNotes={fetchBookAndNotes} />
     </div>
   );
 }

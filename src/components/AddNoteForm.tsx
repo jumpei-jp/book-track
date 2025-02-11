@@ -10,7 +10,7 @@ const questionOptions = [
   "1ヶ月後に振り返るなら何を覚えておきたい？",
 ];
 
-export default function AddNoteForm({ bookId }: { bookId: string }) {
+export default function AddNoteForm({ bookId, refreshNotes }: { bookId: string; refreshNotes: () => void }) {
   const [question, setQuestion] = useState(questionOptions[0]);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,8 @@ export default function AddNoteForm({ bookId }: { bookId: string }) {
     if (error) {
       console.error("メモ保存エラー:", error);
     } else {
-      setContent("");
+      setContent(""); // 入力欄をリセット
+      refreshNotes(); // 🔹 メモを再取得して更新
       alert("メモを保存しました！");
     }
   };
