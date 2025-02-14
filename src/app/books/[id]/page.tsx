@@ -1,9 +1,10 @@
-"use client"; // クライアントコンポーネントとして指定
+"use client";
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import AddNoteForm from "@/components/AddNoteForm";
+import DeleteButton from "@/components/DeleteButton"; // 削除ボタンをインポート
 
 type Book = {
   id: string;
@@ -20,10 +21,12 @@ type Note = {
 
 export default function BookDetailPage() {
   const { id } = useParams();
+  const router = useRouter();
   const [book, setBook] = useState<Book | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // 🔹 本とメモのデータを取得する関数を定義
+  // 🔹 本とメモのデータを取得する関数
   const fetchBookAndNotes = async () => {
     if (!id) return;
 
@@ -53,15 +56,40 @@ export default function BookDetailPage() {
     }
   };
 
-  // 🔹 初回レンダリング時にデータを取得
+  // 初回レンダリング時にデータを取得
   useEffect(() => {
     fetchBookAndNotes();
   }, [id]);
 
+  // 🔹 本を削除する処理
+  const handleDelete = async () => {
+    if (!id) return;
+
+    const confirmDelete = window.confirm("本を削除しますか？ この操作は元に戻せません。");
+    if (!confirmDelete) return;
+
+    setLoading(true);
+    const { error } = await supabase.from("books").delete().eq("id", id);
+    setLoading(false);
+
+    if (error) {
+      console.error("削除エラー:", error);
+      alert("削除に失敗しました。");
+    } else {
+      alert("本を削除しました。");
+      router.push("/"); // 削除後はトップページへリダイレクト
+    }
+  };
+
   if (!book) return <div>📖 読み込み中...</div>;
 
   return (
-    <div className="max-w-xl mx-auto mt-8">
+    <div className="relative max-w-xl mx-auto mt-8 p-4 border rounded-md shadow-lg">
+      {/* 削除ボタンを右上に配置 */}
+      <div className="absolute top-4 right-4">
+        <DeleteButton onDelete={handleDelete} disabled={loading} />
+      </div>
+
       <h1 className="text-2xl font-bold">{book.title}</h1>
       <p className="text-gray-600">👨‍💼 {book.author}</p>
       <p className="text-gray-500">📅 読了日: {book.read_date}</p>
