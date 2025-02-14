@@ -13,6 +13,9 @@ export default function Navbar() {
           <Link href="/books/new" className="hover:underline">
             ➕ 本を追加
           </Link>
+          <Link href="/about" className="hover:underline">
+            ℹ️ アプリについて
+          </Link>
         </div>
       </div>
     </nav>
