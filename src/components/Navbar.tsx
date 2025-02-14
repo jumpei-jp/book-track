@@ -1,18 +1,14 @@
 "use client";
 
-
 import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="bg-gray-900/80 backdrop-blur-md text-white p-4 shadow-lg">
+    <nav className="bg-blue-900/80 backdrop-blur-md text-white p-4 shadow-lg">
       <div className="max-w-4xl mx-auto flex justify-between items-center">
-        {/* トップページリンク */}
         <Link href="/" className="text-2xl font-bold hover:opacity-80 transition">
           📚 BookTrack
         </Link>
-
-        {/* ナビゲーションメニュー */}
         <div className="space-x-6">
           <Link
             href="/books/new"
