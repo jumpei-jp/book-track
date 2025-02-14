@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Button from "@/components/Button";
 
 const questionOptions = [
   "この本で一番印象に残ったことは？",
@@ -54,13 +55,12 @@ export default function AddNoteForm({ bookId, refreshNotes }: { bookId: string; 
         className="w-full p-2 border rounded mt-2"
         placeholder="メモを入力"
       />
-      <button
+      <Button
         onClick={handleSave}
-        disabled={loading}
-        className="w-full mt-2 px-4 py-2 bg-blue-500 text-white rounded"
-      >
+        type="button"
+        disabled={loading}>
         {loading ? "保存中..." : "💾 保存"}
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,8 +1,9 @@
-"use client"; // Next.js でイベントハンドラを使うために必要
+"use client";
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import Button from "@/components/Button";
 
 export default function NewBookPage() {
   const [title, setTitle] = useState("");
@@ -30,9 +31,8 @@ export default function NewBookPage() {
       <input className="w-full p-2 border rounded mb-2" placeholder="タイトル" value={title} onChange={(e) => setTitle(e.target.value)} />
       <input className="w-full p-2 border rounded mb-2" placeholder="著者" value={author} onChange={(e) => setAuthor(e.target.value)} />
       <input type="date" className="w-full p-2 border rounded mb-2" value={readDate} onChange={(e) => setReadDate(e.target.value)} />
-      <button onClick={handleSave} className="w-full px-4 py-2 bg-blue-500 text-white rounded">
-        💾 登録する
-      </button>
+
+      <Button onClick={handleSave}>📖 登録</Button>
     </div>
   );
 }

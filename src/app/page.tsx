@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import Button from "@/components/Button";
 
 type Book = {
   id: string;
@@ -35,9 +36,7 @@ export default function HomePage() {
     <div className="max-w-xl mx-auto mt-8">
       <h1 className="text-2xl font-bold mb-4">📚 あなたの読書リスト</h1>
       <Link href="/books/new">
-        <button className="px-4 py-2 bg-green-500 text-white rounded">
-          ➕ 新しい本を追加
-        </button>
+        <Button>➕ 新しい本を追加</Button>
       </Link>
       <ul className="space-y-2 mt-4">
         {books.map((book) => (
