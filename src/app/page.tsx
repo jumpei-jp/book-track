@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import Button from "@/components/Button";
+import { FaPlus } from "react-icons/fa";
 
 type Book = {
   id: string;
@@ -36,7 +37,10 @@ export default function HomePage() {
     <div className="max-w-xl mx-auto mt-8">
       <h1 className="text-2xl font-bold mb-4">📚 あなたの読書リスト</h1>
       <Link href="/books/new">
-        <Button>➕ 新しい本を追加</Button>
+        <Button>
+          <FaPlus className="text-lg" />
+          <span>新しい本を追加</span>
+        </Button>
       </Link>
       <ul className="space-y-2 mt-4">
         {books.map((book) => (

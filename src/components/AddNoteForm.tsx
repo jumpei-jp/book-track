@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { FaSave } from "react-icons/fa";
 import Button from "@/components/Button";
 
 const questionOptions = [
@@ -55,11 +56,9 @@ export default function AddNoteForm({ bookId, refreshNotes }: { bookId: string; 
         className="w-full p-2 border rounded mt-2"
         placeholder="メモを入力"
       />
-      <Button
-        onClick={handleSave}
-        type="button"
-        disabled={loading}>
-        {loading ? "保存中..." : "💾 保存"}
+      <Button onClick={handleSave} type="button" disabled={loading}>
+        <FaSave className="text-lg" />
+        <span>{loading ? "保存中..." : "保存"}</span>
       </Button>
     </div>
   );

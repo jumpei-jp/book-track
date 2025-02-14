@@ -4,6 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
+import { FaCheckCircle } from "react-icons/fa";
 
 export default function NewBookPage() {
   const [title, setTitle] = useState("");
@@ -32,7 +33,10 @@ export default function NewBookPage() {
       <input className="w-full p-2 border rounded mb-2" placeholder="著者" value={author} onChange={(e) => setAuthor(e.target.value)} />
       <input type="date" className="w-full p-2 border rounded mb-2" value={readDate} onChange={(e) => setReadDate(e.target.value)} />
 
-      <Button onClick={handleSave}>📖 登録</Button>
+      <Button onClick={handleSave}>
+        <FaCheckCircle className="text-lg" />
+        <span>登録</span>
+      </Button>
     </div>
   );
 }
